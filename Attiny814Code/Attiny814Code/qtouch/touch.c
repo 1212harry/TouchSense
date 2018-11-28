@@ -468,6 +468,8 @@ void touch_timer_handler(void)
 	if (interrupt_cnt > measeurePeriod) {
 		interrupt_cnt = 0;
 		
+		TOUCH_SetMeasureBusyFlag();
+		
 		/* Count complete - Measure touch sensors */
 		qtm_control.binding_layer_flags |= (1u << time_to_measure_touch);
 

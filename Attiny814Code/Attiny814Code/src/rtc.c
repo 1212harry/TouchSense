@@ -42,16 +42,19 @@
  */
 int8_t RTC_init(uint8_t mode)
 {
-	while (RTC.STATUS > 0) { /* Wait for all register to be synchronized */
+	//while (RTC.STATUS > 0) { /* Wait for all register to be synchronized */
+	//}
+	
+	while (RTC.PITSTATUS > 0) { /* Wait for all register to be synchronized */
 	}
 
 	// RTC.CMP = 0x0; /* Compare: 0x0 */
 
 	// RTC.CNT = 0x0; /* Counter: 0x0 */
 
-	RTC.CTRLA = RTC_PRESCALER_DIV1_gc   /* 1 */
-	| 1 << RTC_RTCEN_bp     /* Enable: enabled */
-	| 1 << RTC_RUNSTDBY_bp; /* Run In Standby: enabled */
+	//RTC.CTRLA = RTC_PRESCALER_DIV1_gc   /* 1 */
+	//| 1 << RTC_RTCEN_bp     /* Enable: enabled */
+	//| 1 << RTC_RUNSTDBY_bp; /* Run In Standby: enabled */
 
 	// RTC.PER = 0xffff; /* Period: 0xffff */
 
@@ -59,15 +62,15 @@ int8_t RTC_init(uint8_t mode)
 
 	// RTC.DBGCTRL = 0 << RTC_DBGRUN_bp; /* Run in debug: disabled */
 
-	RTC.INTCTRL = 1 << RTC_CMP_bp    /* Compare Match Interrupt enable: enabled */
-	| 0 << RTC_OVF_bp; /* Overflow Interrupt enable: disabled */
+	//RTC.INTCTRL = 1 << RTC_CMP_bp    /* Compare Match Interrupt enable: enabled */
+	//| 0 << RTC_OVF_bp; /* Overflow Interrupt enable: disabled */
 
-	// RTC.PITCTRLA = RTC_PERIOD_OFF_gc /* Off */
-	//		 | 0 << RTC_PITEN_bp; /* Enable: disabled */
+	 RTC.PITCTRLA = RTC_PERIOD_CYC32_gc /* Off */
+			 | 1 << RTC_PITEN_bp; /* Enable: disabled */
 
-	// RTC.PITDBGCTRL = 0 << RTC_DBGRUN_bp; /* Run in debug: disabled */
+	 RTC.PITDBGCTRL = 0 << RTC_DBGRUN_bp; /* Run in debug: disabled */
 
-	// RTC.PITINTCTRL = 0 << RTC_PI_bp; /* Periodic Interrupt: disabled */
+	 RTC.PITINTCTRL = 1 << RTC_PI_bp; /* Periodic Interrupt: disabled */
 
 	return 0;
 }

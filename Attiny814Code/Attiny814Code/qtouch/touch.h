@@ -90,7 +90,7 @@ extern "C" {
  */
 #define NODE_0_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		X_NONE, Y(0), 1, NODE_RSEL_PRSC(RSEL_VAL_0, PRSC_DIV_SEL_1), NODE_GAIN(GAIN_1 , GAIN_1), FILTER_LEVEL_8         \
+		X_NONE, Y(0), 1, NODE_RSEL_PRSC(RSEL_VAL_0, PRSC_DIV_SEL_1), NODE_GAIN(GAIN_2 , GAIN_1), FILTER_LEVEL_16         \
 	}
 
 /**********************************************************/

@@ -150,6 +150,8 @@ void datastreamer_output(void)
 
 		/* Comp Caps */
 		u16temp_output = get_sensor_cc_val(count_bytes_out);
+		//u16temp_output = TOUCH_SNR();
+		
 		datastreamer_transmit((uint8_t)u16temp_output);
 		datastreamer_transmit((uint8_t)(u16temp_output >> 8u));
 

@@ -64,6 +64,7 @@ void system_init(void);
 void LowBattery(void);
 void RTC_CallBack(void);
 int16_t TOUCH_DeltaSmoothing(int16_t curDelta);
+void TOUCH_SetMeasureBusyFlag(void);
 #ifdef __cplusplus
 }
 #endif

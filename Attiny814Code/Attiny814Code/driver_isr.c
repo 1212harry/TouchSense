@@ -36,14 +36,13 @@
 #include <driver_init.h>
 #include <compiler.h>
 
-ISR(RTC_CNT_vect)
+ISR(RTC_PIT_vect)
 {
-
 	/* Insert your RTC Compare interrupt handling code */
 	touch_timer_handler();
 	RTC_CallBack();
-	/* Compare interrupt flag has to be cleared manually */
-	RTC.INTFLAGS = RTC_CMP_bm;
+	/* PIT interrupt flag has to be cleared manually */
+	RTC.PITINTFLAGS = RTC_PI_bm;
 }
 
 ISR(AC0_AC_vect)
