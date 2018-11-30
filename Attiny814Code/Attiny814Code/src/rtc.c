@@ -65,7 +65,7 @@ int8_t RTC_init(uint8_t mode)
 	//RTC.INTCTRL = 1 << RTC_CMP_bp    /* Compare Match Interrupt enable: enabled */
 	//| 0 << RTC_OVF_bp; /* Overflow Interrupt enable: disabled */
 
-	 RTC.PITCTRLA = RTC_PERIOD_CYC32_gc /* Off */
+	 RTC.PITCTRLA = RTC_PERIOD_CYC1024_gc /* Off */
 			 | 1 << RTC_PITEN_bp; /* Enable: disabled */
 
 	 RTC.PITDBGCTRL = 0 << RTC_DBGRUN_bp; /* Run in debug: disabled */

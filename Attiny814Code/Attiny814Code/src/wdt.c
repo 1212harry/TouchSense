@@ -44,13 +44,9 @@
 int8_t WDT_0_init()
 {
 	ccp_write_io((void *)&(WDT.CTRLA),
-	             WDT_PERIOD_128CLK_gc /* 128 cycles (128) */
+	             WDT_PERIOD_1KCLK_gc /* 128 cycles (128) */
 	                 | WDT_WINDOW_OFF_gc /* Window mode off */);
 
 	return 0;
 }
 
-void WDT_0_Disable(void)
-{
-	ccp_write_io((void *)&(WDT.CTRLA),WDT_PERIOD_OFF_gc);
-}

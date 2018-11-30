@@ -202,7 +202,7 @@ void system_init()
 	
 	//AC_0_initialization();
 
-	//WDT_0_init();
+	WDT_0_init();
 
 	CPUINT_init();
 

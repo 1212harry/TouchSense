@@ -10,8 +10,8 @@ uint8_t EDGE_THRESDHOLD = 70;
 uint8_t FILTER_THRESDHOLD = 20;
 #define STRONG_EDGE_THRESHOLD			70
 #define WEAK_EDGE_THRESHOLD				20
-#define FINGER_ON_MINIMUM_TIME_MS		70
-#define FINGER_ON_MAXIMUM_TIME_MS		1000
+#define FINGER_ON_MINIMUM_TIME_MS		2
+#define FINGER_ON_MAXIMUM_TIME_MS		31
 
 //#define SNR_CAL_CNT    20
 
@@ -27,10 +27,10 @@ typedef enum
 	OFF,
 }RadiotubeStateDef;
 
-volatile SensorStateDef SensorState;
-volatile RadiotubeStateDef RadiotubeState;
+volatile SensorStateDef SensorState = FINGER_ON_DETECT;
+volatile RadiotubeStateDef RadiotubeState = OFF;
 
-volatile uint8_t measeurePeriod = 32;
+volatile uint8_t measeurePeriod = 1;
 
 volatile uint16_t fingerOnCnt = 0;
 uint8_t radiotubeCnt = 0;
@@ -64,7 +64,7 @@ void Radiotube_Handle(void)
 		_delay_ms(30);
 		IO1_set_level(false);
 		_delay_ms(10);
-		measeurePeriod = 16;
+		measeurePeriod = 1;
 		edgeDetectFreeze = 1;
 	}
 	else
@@ -74,7 +74,7 @@ void Radiotube_Handle(void)
 		_delay_ms(30);
 		IO2_set_level(false);
 		_delay_ms(10);
-		measeurePeriod = 32;
+		measeurePeriod = 1;
 		edgeDetectFreeze = 1;
 	}
 }
@@ -93,7 +93,9 @@ void LowBattery(void)
 	IO1_set_level(true);
 	_delay_ms(30);
 	IO1_set_level(false);
-	MCU_GoToSleep(SLEEP_MODE_PWR_DOWN);
+	while (1)
+	{
+	}
 }
 
 
@@ -107,7 +109,7 @@ void RTC_CallBack(void)
 	if(edgeDetectFreeze == 1)
 		edgeFreezeCnt++;
 
-	if (edgeFreezeCnt > 500)
+	if (edgeFreezeCnt > 16)
 	{
 		edgeFreezeCnt = 0;
 		edgeDetectFreeze = 0;
@@ -118,7 +120,7 @@ void RTC_CallBack(void)
 	if(RadiotubeState == ON)
 	{
 		RadiotubeOnTime++;
-		if(RadiotubeOnTime > 180000)
+		if(RadiotubeOnTime > 5625)
 		{
 			RadiotubeOnTime = 0;
 			Radiotube_Handle();
@@ -355,35 +357,31 @@ static uint8_t TOUCH_TouchDetect(void)
 	//}
 //}
 
-uint8_t flag = 0;
 
 int main(void)
 {
 	
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
-	//MCU_GoToSleep(SLEEP_MODE_PWR_DOWN);
-	SensorState = FINGER_ON_DETECT;
 	
 	/* the inital state of radiotube should be closed */
 	IO2_set_level(true);
 	_delay_ms(30);
 	IO2_set_level(false);
 	
-	RadiotubeState = OFF;
-	
 	//Radiotube_Test();
 	
 	/* Replace with your application code */
 	while(1) 
 	{
-		//wdt_reset();
+		wdt_reset();
 		
 		if(TOUCH_TouchDetect() == 1)
 			Radiotube_Handle();
 		
 		if (measureBusyFlag == 0)
 			MCU_GoToSleep(SLEEP_MODE_PWR_DOWN);
+		
 			
 		//MCU_GoToSleep(SLEEP_MODE_IDLE);
 	}

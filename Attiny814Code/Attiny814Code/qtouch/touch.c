@@ -463,10 +463,10 @@ extern volatile uint8_t measeurePeriod;
 void touch_timer_handler(void)
 {
 
-	interrupt_cnt++;
-
-	if (interrupt_cnt > measeurePeriod) {
-		interrupt_cnt = 0;
+	//interrupt_cnt++;
+//
+	//if (interrupt_cnt > measeurePeriod) {
+		//interrupt_cnt = 0;
 		
 		TOUCH_SetMeasureBusyFlag();
 		
@@ -474,7 +474,7 @@ void touch_timer_handler(void)
 		qtm_control.binding_layer_flags |= (1u << time_to_measure_touch);
 
 		qtm_update_qtlib_timer(measeurePeriod);
-	}
+	//}
 }
 
 uint16_t get_sensor_node_signal(uint16_t sensor_node)

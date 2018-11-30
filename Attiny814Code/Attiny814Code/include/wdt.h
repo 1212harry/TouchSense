@@ -37,7 +37,6 @@ extern "C" {
 #endif
 
 int8_t WDT_0_init();
-void WDT_0_Disable(void);
 
 #ifdef __cplusplus
 }
