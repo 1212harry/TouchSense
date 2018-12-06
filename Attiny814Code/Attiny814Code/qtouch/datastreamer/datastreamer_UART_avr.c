@@ -132,6 +132,7 @@ void datastreamer_output(void)
 
 		/* Reference */
 		u16temp_output = get_sensor_node_reference(count_bytes_out);
+		u16temp_output = TOUCH_GetTouchSignal();
 		datastreamer_transmit((uint8_t)u16temp_output);
 		datastreamer_transmit((uint8_t)(u16temp_output >> 8u));
 		
