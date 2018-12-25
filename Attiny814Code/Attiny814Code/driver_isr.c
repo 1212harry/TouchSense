@@ -47,9 +47,13 @@ ISR(RTC_PIT_vect)
 
 ISR(AC0_AC_vect)
 {
+	uint8_t temp;
 	/* Insert your AC interrupt handling code here */
 	/* The interrupt flag has to be cleared manually */
+	temp = AC0.STATUS;
+	
 	AC0.STATUS = AC_CMP_bm;
+	
 	LowBattery();
 }
 

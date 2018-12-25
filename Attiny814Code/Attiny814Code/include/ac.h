@@ -35,6 +35,7 @@ extern "C" {
 #endif
 
 int8_t AC_0_init();
+void AC_0_Disable(void);
 
 #ifdef __cplusplus
 }

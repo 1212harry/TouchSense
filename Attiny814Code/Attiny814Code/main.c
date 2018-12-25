@@ -15,6 +15,7 @@
 #define FINGER_ON_MAXIMUM_TIME_MS(TIME)				(uint16_t)(TIME/RTC_WAKE_UP_TIME)
 #define RADIOTUBE_FREEZE_TIME_MS(TIME)				(uint16_t)(TIME/RTC_WAKE_UP_TIME)		
 #define RADIOTUBE_AUTO_CLOSE_TIME_MIN(TIME)			(uint32_t)((TIME * 60000)/RTC_WAKE_UP_TIME)
+#define AC_CHECK_TIME_MS(TIME)						(uint16_t)(TIME/RTC_WAKE_UP_TIME)	
 
 uint16_t STRONG_EDGE_THRESHOLD = 70;
 uint16_t WEAK_EDGE_THRESHOLD = 40;
@@ -57,8 +58,10 @@ int16_t debugFilteredDeltaValue = 0;
 volatile uint8_t measureBusyFlag = 0;
 
 uint16_t TouchSignal = 100;
-uint16_t TouchSignalGroup[2];
+uint16_t TouchSignalGroup[2] = {0,0};
 uint8_t	TouchSignalGroupPtr = 0;
+
+uint16_t AC_TimeCnt = 0;
 
 static void TOUCH_TouchSignalCollect(uint16_t signal)
 {
@@ -76,7 +79,7 @@ static void TOUCH_TouchSignal(void)
 
 uint16_t TOUCH_GetTouchSignal(void)
 {
-	return TouchSignal;
+	return STRONG_EDGE_THRESHOLD;
 }
 
 void TOUCH_SetMeasureBusyFlag(void)
@@ -120,12 +123,32 @@ void LowBattery(void)
 	IO1_set_level(false);
 	while (1)
 	{
+		wdt_reset();
 	}
 }
 
 
+
 void RTC_CallBack(void)
 {
+	/* monitor the battery charge every second */
+	/* if the charge of battery below 1.5v, go to the low battery mode */
+	AC_TimeCnt++;
+	if (AC_TimeCnt >= AC_CHECK_TIME_MS(1000))
+	{
+		AC_TimeCnt = 0;
+		PA6_set_level(true);
+		_delay_ms(2);
+		AC_0_init();
+		_delay_ms(2);
+		
+		if ((AC0.STATUS & AC_STATE_bm) == 0)
+		LowBattery();
+		
+		AC_0_Disable();
+		PA6_set_level(false);
+	}
+	
 	/* count the time when the  finger on */
 	if (SensorState == FINGER_OFF_DETECT)
 		fingerOnCnt++;
@@ -410,9 +433,7 @@ int main(void)
 			Radiotube_Handle();
 		
 		if (measureBusyFlag == 0)
-			MCU_GoToSleep(SLEEP_MODE_IDLE);
-		
-			
+			MCU_GoToSleep(SLEEP_MODE_PWR_DOWN);
 		//MCU_GoToSleep(SLEEP_MODE_IDLE);
 	}
 }

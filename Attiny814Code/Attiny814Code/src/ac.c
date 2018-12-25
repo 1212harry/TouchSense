@@ -50,12 +50,21 @@ int8_t AC_0_init()
 	               | AC_MUXNEG_VREF_gc  /* Voltage Reference */
 	               | AC_MUXPOS_PIN0_gc; /* Positive Pin 0 */
 
-	AC0.CTRLA = 1 << AC_ENABLE_bp       /* Enable: enabled */
+	AC0.CTRLA = 1 << AC_ENABLE_bp       /* Enable: disabled */
 	            | AC_HYSMODE_OFF_gc     /* No hysteresis */
 	            | AC_INTMODE_NEGEDGE_gc /* Negative Edge */
-	            | AC_LPMODE_EN_gc       /* Low power mode enabled */
+	            //| AC_LPMODE_EN_gc       /* Low power mode enabled */
 	            | 0 << AC_OUTEN_bp      /* Output Buffer Enable: disabled */
 	            | 0 << AC_RUNSTDBY_bp;  /* Run in Standby Mode: disabled */
 
 	return 0;
+}
+
+
+
+
+void AC_0_Disable(void)
+{
+	AC0.INTCTRL = 0 << AC_CMP_bp; /* Analog Comparator 0 Interrupt Enable: enabled */
+	AC0.CTRLA = 0 << AC_ENABLE_bp;	/* Enable: disabled */
 }

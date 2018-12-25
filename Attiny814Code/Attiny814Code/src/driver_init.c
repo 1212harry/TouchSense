@@ -44,7 +44,7 @@ void AC_0_initialization(void)
 	// Disable pull-up resistor
 	PA7_set_pull_mode(PORT_PULL_OFF);
 
-	AC_0_init();
+	//AC_0_init();
 }
 
 void USART_initialization(void)
@@ -135,14 +135,14 @@ void system_init()
 	/* PORT setting on PA6 */
 
 	// Set pin direction to input
-	PA6_set_dir(PORT_DIR_IN);
+	PA6_set_dir(PORT_DIR_OUT);
 
-	PA6_set_pull_mode(
-	    // <y> Pull configuration
-	    // <id> pad_pull_config
-	    // <PORT_PULL_OFF"> Off
-	    // <PORT_PULL_UP"> Pull-up
-	    PORT_PULL_UP);
+	PA6_set_level(
+	// <y> Initial level
+	// <id> pad_initial_level
+	// <false"> Low
+	// <true"> High
+	false);
 
 	/* PORT setting on PB0 */
 
@@ -170,27 +170,27 @@ void system_init()
 		
 	/* PORT setting on PB2 */
 
-	//// Set pin direction to input
-	//PB2_set_dir(PORT_DIR_IN);
-//
-	//PB2_set_pull_mode(
-	    //// <y> Pull configuration
-	    //// <id> pad_pull_config
-	    //// <PORT_PULL_OFF"> Off
-	    //// <PORT_PULL_UP"> Pull-up
-	    //PORT_PULL_UP);
-//
-	///* PORT setting on PB3 */
-//
-	//// Set pin direction to input
-	//PB3_set_dir(PORT_DIR_IN);
-//
-	//PB3_set_pull_mode(
-	    //// <y> Pull configuration
-	    //// <id> pad_pull_config
-	    //// <PORT_PULL_OFF"> Off
-	    //// <PORT_PULL_UP"> Pull-up
-	    //PORT_PULL_UP);
+	// Set pin direction to input
+	PB2_set_dir(PORT_DIR_IN);
+
+	PB2_set_pull_mode(
+	    // <y> Pull configuration
+	    // <id> pad_pull_config
+	    // <PORT_PULL_OFF"> Off
+	    // <PORT_PULL_UP"> Pull-up
+	    PORT_PULL_UP);
+
+	/* PORT setting on PB3 */
+
+	// Set pin direction to input
+	PB3_set_dir(PORT_DIR_IN);
+
+	PB3_set_pull_mode(
+	    // <y> Pull configuration
+	    // <id> pad_pull_config
+	    // <PORT_PULL_OFF"> Off
+	    // <PORT_PULL_UP"> Pull-up
+	    PORT_PULL_UP);
 
 	CLKCTRL_init();
 
@@ -198,10 +198,10 @@ void system_init()
 	
 	VREF_0_init();
 	
-	USART_initialization();
+	//USART_initialization();
 	
-	//AC_0_initialization();
-
+	AC_0_initialization();
+	
 	WDT_0_init();
 
 	CPUINT_init();
