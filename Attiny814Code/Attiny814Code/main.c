@@ -70,8 +70,14 @@ static void TOUCH_TouchSignalCollect(uint16_t signal)
 		TouchSignalGroupPtr = 0;
 }
 
+uint8_t ignoreTime = 0;
 static void TOUCH_TouchSignal(void)
 {
+	if (ignoreTime < 10)
+	{
+		ignoreTime++;
+		return;
+	}
 	TouchSignal = (TouchSignal * 9 + (TouchSignalGroup[0] + TouchSignalGroup[1]) / 2) / 10;
 	STRONG_EDGE_THRESHOLD = TouchSignal * 7 / 10;
 	WEAK_EDGE_THRESHOLD = TouchSignal * 4 / 10;
@@ -416,12 +422,7 @@ int main(void)
 	
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
-	
-	/* the inital state of radiotube should be closed */
-	IO2_set_level(true);
-	_delay_ms(30);
-	IO2_set_level(false);
-	
+		
 	//Radiotube_Test();
 	
 	/* Replace with your application code */
