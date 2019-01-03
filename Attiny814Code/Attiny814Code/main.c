@@ -110,6 +110,7 @@ void Radiotube_Handle(void)
 		_delay_ms(30);
 		IO2_set_level(false);
 		edgeDetectFreeze = 1;
+		RadiotubeOnTime = 0;
 	}
 }
 
