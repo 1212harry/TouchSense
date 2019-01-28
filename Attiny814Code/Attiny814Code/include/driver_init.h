@@ -60,11 +60,12 @@
 extern "C" {
 #endif
 
+#define _DEBUG
+
 void system_init(void);
-void LowBattery(void);
 void RTC_CallBack(void);
 int16_t TOUCH_DeltaSmoothing(int16_t curDelta);
-uint16_t TOUCH_GetTouchSignal(void);
+int16_t TOUCH_GetTouchSignal(void);
 void TOUCH_SetMeasureBusyFlag(void);
 #ifdef __cplusplus
 }

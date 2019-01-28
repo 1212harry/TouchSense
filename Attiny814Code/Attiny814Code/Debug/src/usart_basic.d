@@ -1,23 +1,23 @@
 src/usart_basic.d src/usart_basic.o: ../src/usart_basic.c \
  ../utils/compiler.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
- D:\Atmel\ Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include/avr/iotn814.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\portpins.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\xmega.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\builtins.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
+ H:\atmel\ software\atmel\ studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include/avr/iotn814.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\portpins.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\xmega.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\builtins.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  ../utils/interrupt_avr8.h \
- d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
+ h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../Config/clock_config.h ../include/usart_basic.h ../atmel_start.h \
  ../include/driver_init.h ../include/port.h ../include/atmel_start_pins.h \
  ../include/clkctrl.h ../include/rtc.h ../utils/utils_assert.h \
@@ -27,46 +27,47 @@ src/usart_basic.d src/usart_basic.o: ../src/usart_basic.c \
  ../qtouch/include/qtm_common_components_api.h \
  ../qtouch/include/qtm_binding_layer_0x0005_api.h \
  ../qtouch/include/qtm_acq_t81x_0x0007_api.h \
- ../qtouch/include/qtm_touch_key_0x0002_api.h ../include/ac.h \
- ../include/vref.h ../include/atmel_start_pins.h ../utils/atomic.h
+ ../qtouch/include/qtm_touch_key_0x0002_api.h ../include/driver_init.h \
+ ../include/ac.h ../include/vref.h ../include/atmel_start_pins.h \
+ ../utils/atomic.h
 
 ../utils/compiler.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdint.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h:
 
-D:\Atmel\ Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include/avr/iotn814.h:
+H:\atmel\ software\atmel\ studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include/avr/iotn814.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\portpins.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\portpins.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\common.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\xmega.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\xmega.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\builtins.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\builtins.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdbool.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
 ../utils/interrupt_avr8.h:
 
-d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+h:\atmel\ software\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
 ../Config/clock_config.h:
 
@@ -109,6 +110,8 @@ d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\i
 ../qtouch/include/qtm_acq_t81x_0x0007_api.h:
 
 ../qtouch/include/qtm_touch_key_0x0002_api.h:
+
+../include/driver_init.h:
 
 ../include/ac.h:
 

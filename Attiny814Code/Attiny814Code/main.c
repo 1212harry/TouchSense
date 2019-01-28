@@ -5,6 +5,7 @@
 #include <math.h>
 #include "touch.h"
 #include "touch_api_ptc.h"
+#include "driver_init.h"
 
 #define EDGE_NONE				0
 #define EDGE_RISING				1
@@ -17,10 +18,9 @@
 #define RADIOTUBE_AUTO_CLOSE_TIME_MIN(TIME)			(uint32_t)((TIME * 60000)/RTC_WAKE_UP_TIME)
 #define AC_CHECK_TIME_MS(TIME)						(uint16_t)(TIME/RTC_WAKE_UP_TIME)	
 
-uint16_t STRONG_EDGE_THRESHOLD = 70;
-uint16_t WEAK_EDGE_THRESHOLD = 40;
-
-//#define SNR_CAL_CNT    20
+uint16_t STRONG_EDGE_THRESHOLD = 50;
+uint16_t noiseTolerance = 25;
+uint8_t noiseCnt = 0;
 
 typedef enum
 {
@@ -44,6 +44,7 @@ uint8_t radiotubeCnt = 0;
 uint32_t RadiotubeOnTime = 0;
 
 extern volatile uint8_t measurement_done_touch;
+volatile uint8_t measureBusyFlag = 0;
 
 volatile uint8_t edgeFreezeStart = 0;
 volatile uint8_t edgeDetectFreeze = 0;
@@ -51,39 +52,11 @@ uint16_t edgeFreezeCnt = 0;
 
 /* filter variable */
 int16_t filteredDeltaValue = 0;
-int16_t preFilteredDeltaValue = 0;
-int16_t preDebugFilteredDeltaValue = 0;
-int16_t debugFilteredDeltaValue = 0;
 
-volatile uint8_t measureBusyFlag = 0;
-
-uint16_t TouchSignal = 100;
-uint16_t TouchSignalGroup[2] = {0,0};
-uint8_t	TouchSignalGroupPtr = 0;
-
+uint8_t lowBatteryWarming = 0;
 uint16_t AC_TimeCnt = 0;
 
-static void TOUCH_TouchSignalCollect(uint16_t signal)
-{
-	TouchSignalGroup[TouchSignalGroupPtr++] = signal;
-	if (TouchSignalGroupPtr >= 2)
-		TouchSignalGroupPtr = 0;
-}
-
-uint8_t ignoreTime = 0;
-static void TOUCH_TouchSignal(void)
-{
-	if (ignoreTime < 10)
-	{
-		ignoreTime++;
-		return;
-	}
-	TouchSignal = (TouchSignal * 9 + (TouchSignalGroup[0] + TouchSignalGroup[1]) / 2) / 10;
-	STRONG_EDGE_THRESHOLD = TouchSignal * 7 / 10;
-	WEAK_EDGE_THRESHOLD = TouchSignal * 4 / 10;
-}
-
-uint16_t TOUCH_GetTouchSignal(void)
+int16_t TOUCH_GetTouchSignal(void)
 {
 	return STRONG_EDGE_THRESHOLD;
 }
@@ -102,6 +75,14 @@ void Radiotube_Handle(void)
 		_delay_ms(30);
 		IO1_set_level(false);
 		edgeDetectFreeze = 1;
+		
+		if (lowBatteryWarming == 1)
+		{
+			while (1)
+			{
+				wdt_reset();
+			}
+		}
 	}
 	else
 	{
@@ -123,25 +104,13 @@ void MCU_GoToSleep(int mode)
 	sleep_disable();
 }
 
-void LowBattery(void)
-{
-	IO1_set_level(true);
-	_delay_ms(30);
-	IO1_set_level(false);
-	while (1)
-	{
-		wdt_reset();
-	}
-}
-
-
 
 void RTC_CallBack(void)
 {
 	/* monitor the battery charge every second */
 	/* if the charge of battery below 1.5v, go to the low battery mode */
 	AC_TimeCnt++;
-	if (AC_TimeCnt >= AC_CHECK_TIME_MS(1000))
+	if (AC_TimeCnt >= AC_CHECK_TIME_MS(1000) && lowBatteryWarming == 0)
 	{
 		AC_TimeCnt = 0;
 		PA6_set_level(true);
@@ -150,7 +119,7 @@ void RTC_CallBack(void)
 		_delay_ms(2);
 		
 		if ((AC0.STATUS & AC_STATE_bm) == 0)
-		LowBattery();
+			lowBatteryWarming = 1;
 		
 		AC_0_Disable();
 		PA6_set_level(false);
@@ -158,13 +127,13 @@ void RTC_CallBack(void)
 	
 	/* count the time when the  finger on */
 	if (SensorState == FINGER_OFF_DETECT)
-		fingerOnCnt++;
+		fingerOnCnt++; 
 	
-	/* freeze the edge detection for 500 ms after open the radiotube */
+	/* freeze the edge detection for 100 ms after open the radiotube */
 	if(edgeDetectFreeze == 1)
 		edgeFreezeCnt++;
 
-	if (edgeFreezeCnt > RADIOTUBE_FREEZE_TIME_MS(500))
+	if (edgeFreezeCnt > RADIOTUBE_FREEZE_TIME_MS(100))
 	{
 		edgeFreezeCnt = 0;
 		edgeDetectFreeze = 0;
@@ -185,169 +154,62 @@ void RTC_CallBack(void)
 
 
 int16_t TOUCH_DeltaSmoothing(int16_t curDelta)
-{
-	int16_t tempDelta;
-	
-	tempDelta = curDelta - preDebugFilteredDeltaValue;
-	
-	if (abs(tempDelta) >= STRONG_EDGE_THRESHOLD)
-	{
-		/* this is an strong edge */
-		debugFilteredDeltaValue = curDelta;
-	}
-	else if (abs(tempDelta) >= WEAK_EDGE_THRESHOLD)
-	{
-		/* this is an weak edge */
-		debugFilteredDeltaValue = (preDebugFilteredDeltaValue * 5 + curDelta * 5)/10;
-	}
-	else
-	{
-		/* this should be suppressed */
-		debugFilteredDeltaValue = (preDebugFilteredDeltaValue * 9 + curDelta)/10;
-	}
-	
-	preDebugFilteredDeltaValue = debugFilteredDeltaValue;
-	
+{		
 	if (edgeDetectFreeze == 1)
-		tempDelta = 0;
-		
-	return abs(tempDelta);
-}
-int16_t edgeGroup[4];
-uint8_t edgeGroupPtr = 0;
-
-static void TOUCH_ClearEdgeGroup(void)
-{
-	uint8_t i;
-	
-	edgeGroupPtr = 0;
-	for (i = 0; i < 4; i++)
-		edgeGroup[edgeGroupPtr] = 0;
+		return 0;
+	else
+		return abs(curDelta - filteredDeltaValue);
 }
 
 static uint8_t TOUCH_DeltaEdgeDetct(void)
 {
 	int16_t curDelta;
-	int16_t tempDelta;
-	uint8_t edgeStatus = EDGE_NONE,i;
-	int16_t edgeGroupSum = 0;
+	int16_t deltaDerivativeAbs,deltaDerivative;
+	uint8_t edgeStatus = EDGE_NONE;
 	
 	curDelta = get_sensor_node_signal(0);
 	curDelta -= get_sensor_node_reference(0);
 	
-	tempDelta = curDelta - preFilteredDeltaValue;
+	deltaDerivative = curDelta - filteredDeltaValue;
+	deltaDerivativeAbs = abs(deltaDerivative);
+	filteredDeltaValue = curDelta;
 	
-	if (abs(tempDelta) >= STRONG_EDGE_THRESHOLD)
+	if (deltaDerivativeAbs >= STRONG_EDGE_THRESHOLD)
 	{
 		/* this is an strong edge */
-		if(tempDelta > 0)
+		if(deltaDerivative > 0)
 			edgeStatus = EDGE_RISING;
 		else 
 			edgeStatus = EDGE_FALLING;
-		
-		filteredDeltaValue = curDelta;
-		TOUCH_ClearEdgeGroup();
-		TOUCH_TouchSignalCollect(abs(tempDelta));
 	}
-	else if (abs(tempDelta) >= WEAK_EDGE_THRESHOLD)
+	else if (deltaDerivativeAbs >= noiseTolerance)
 	{
-		/* this is an weak edge */
-		
-		filteredDeltaValue = (preFilteredDeltaValue * 5 + curDelta * 5)/10;
-		
-		/* if the sum of continuous four edges exceed the 
-			strong threshold, an effective status should
-			be return.*/
-		edgeGroup[edgeGroupPtr++] = tempDelta;
-		if (edgeGroupPtr >= 4)
-			edgeGroupPtr = 0;
-		
-		for (i = 0; i < 4; i++)
-			edgeGroupSum += edgeGroup[i];
-			
-		if (abs(edgeGroupSum) >= STRONG_EDGE_THRESHOLD)
-		{
-			TOUCH_ClearEdgeGroup();
-			TOUCH_TouchSignalCollect(abs(edgeGroupSum));
-			if (edgeGroupSum > 0)
-				edgeStatus = EDGE_RISING; 
-			else
-				edgeStatus = EDGE_FALLING;
-		}
+		/* if the amplitude of noise exceed the noise tolerance,
+			the edge threshold should go up.*/
+		STRONG_EDGE_THRESHOLD++;
+		noiseCnt = 0;
 	}
 	else
 	{
-		/* this should be suppressed */
-		filteredDeltaValue = (preFilteredDeltaValue * 9 + curDelta)/10;
-		
-		edgeGroup[edgeGroupPtr++] = 0;
-		if (edgeGroupPtr >= 4)
-			edgeGroupPtr = 0;
+		/* if the fluctuation of noise within the noise tolerance for 3 second,
+			the edge threshold should go down.*/
+		noiseCnt++;
+		if (noiseCnt >= 100)
+		{
+			STRONG_EDGE_THRESHOLD--;
+			noiseCnt = 0;
+		}
 	}
 	
-	preFilteredDeltaValue = filteredDeltaValue;
+	if (STRONG_EDGE_THRESHOLD >= 80)
+		STRONG_EDGE_THRESHOLD = 80;
+	else if (STRONG_EDGE_THRESHOLD <= 35)
+		STRONG_EDGE_THRESHOLD = 35;
+	
+	noiseTolerance = STRONG_EDGE_THRESHOLD/2;
 	
 	return edgeStatus;
 }
-
-//int16_t signalTouched[SNR_CAL_CNT];
-//int16_t signalUntouched[SNR_CAL_CNT];
-//int16_t signalRaw[SNR_CAL_CNT];
-//uint8_t signalPtr = 0;
-//uint8_t signalTouchedPtr = 0;
-//uint8_t signalUntouchedPtr = 0;
-//
-//int16_t TOUCH_SNR(void)
-//{
-	//int32_t temp = 0;
-	//int16_t SNR,touchStrength, noise;
-	//uint16_t signalTouchAvg = 0, signalUntouchAvg = 0;
-	//uint8_t i;
-//
-	//signalRaw[signalPtr] = get_sensor_node_signal(0);
-	//signalRaw[signalPtr] -= get_sensor_node_reference(0);
-	//
-	//if (signalRaw[signalPtr] >= EDGE_THRESDHOLD)
-	//{
-		//signalTouched[signalTouchedPtr++] = signalRaw[signalPtr];
-		//if(signalTouchedPtr >= SNR_CAL_CNT)
-			//signalTouchedPtr = 0;
-	//}
-	//else
-	//{
-		//signalUntouched[signalUntouchedPtr++] = signalRaw[signalPtr];
-		//if(signalUntouchedPtr >= SNR_CAL_CNT)
-			//signalUntouchedPtr = 0;
-	//}
-	//
-	//signalPtr++;
-	//if (signalPtr >= SNR_CAL_CNT)
-		//signalPtr = 0;
-	//
-	//for (i = 0; i < SNR_CAL_CNT; i++)
-	//{
-		//signalTouchAvg += signalTouched[i];
-		//signalUntouchAvg += signalUntouched[i];
-	//}
-	//
-	//signalTouchAvg = signalTouchAvg/SNR_CAL_CNT;
-	//signalUntouchAvg = signalUntouchAvg/SNR_CAL_CNT;
-	//
-	//touchStrength = signalTouchAvg - signalUntouchAvg;
-	//
-	//for (i = 0; i < SNR_CAL_CNT; i++)
-		//temp += (signalUntouched[i] - signalUntouchAvg) * (signalUntouched[i] - signalUntouchAvg);
-	//
-	//
-	//noise = sqrt((double)(temp/SNR_CAL_CNT));
-	//
-	//if(noise == 0)
-		//noise = 1;
-		//
-	//SNR = touchStrength/noise;
-	////SNR = touchStrength;
-	//return SNR;
-//}
 
 static uint8_t TOUCH_TouchDetect(void)
 {
@@ -360,11 +222,11 @@ static uint8_t TOUCH_TouchDetect(void)
 	if (measurement_done_touch == 0)
 		return keyStatus;
 		
-	edgeStatus = TOUCH_DeltaEdgeDetct();
-	
 	if (edgeDetectFreeze == 1)
 		return keyStatus;
-
+		
+	edgeStatus = TOUCH_DeltaEdgeDetct();
+	
 	switch(SensorState)
 	{
 		case FINGER_ON_DETECT:
@@ -376,8 +238,8 @@ static uint8_t TOUCH_TouchDetect(void)
 			/* state will roll back if rising edge appears. */
 			if (edgeStatus == EDGE_RISING)
 				fingerOnCnt = 0;
-			/* the time duration of effective touch should between 70ms to 1000ms */
-			else if (fingerOnCnt >= FINGER_ON_MAXIMUM_TIME_MS(1000))
+			/* the time duration of effective touch should between 70ms to 500ms */
+			else if (fingerOnCnt >= FINGER_ON_MAXIMUM_TIME_MS(500))
 			{
 				fingerOnCnt = 0;
 				SensorState = FINGER_ON_DETECT;
@@ -385,10 +247,7 @@ static uint8_t TOUCH_TouchDetect(void)
 			else if (edgeStatus == EDGE_FALLING)
 			{
 				if (fingerOnCnt >= FINGER_ON_MINIMUM_TIME_MS(70))
-				{
 					keyStatus = 1;
-					TOUCH_TouchSignal();
-				}
 					
 				fingerOnCnt = 0;
 				SensorState = FINGER_ON_DETECT;
@@ -435,8 +294,13 @@ int main(void)
 			Radiotube_Handle();
 		
 		if (measureBusyFlag == 0)
+		{
+#ifdef _DEBUG
+			MCU_GoToSleep(SLEEP_MODE_IDLE);
+#else
 			MCU_GoToSleep(SLEEP_MODE_PWR_DOWN);
-		//MCU_GoToSleep(SLEEP_MODE_IDLE);
+#endif
+		}
 	}
 }
 

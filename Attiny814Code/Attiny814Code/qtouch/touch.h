@@ -32,6 +32,7 @@ extern "C" {
 
 #include "touch_api_ptc.h"
 #include "rtc.h"
+#include "driver_init.h"
 
 
 /**********************************************************/
@@ -90,7 +91,7 @@ extern "C" {
  */
 #define NODE_0_PARAMS                                                                                                  \
 	{                                                                                                                  \
-		X_NONE, Y(0), 1, NODE_RSEL_PRSC(RSEL_VAL_0, PRSC_DIV_SEL_1), NODE_GAIN(GAIN_2 , GAIN_1), FILTER_LEVEL_16         \
+		X_NONE, Y(0), 1, NODE_RSEL_PRSC(RSEL_VAL_0, PRSC_DIV_SEL_1), NODE_GAIN(GAIN_1 , GAIN_1), FILTER_LEVEL_16         \
 	}
 
 /**********************************************************/
@@ -198,7 +199,11 @@ extern "C" {
 /**********************************************************/
 /***************** Communication - Data Streamer ******************/
 /**********************************************************/
+#ifdef _DEBUG
+#define DEF_TOUCH_DATA_STREAMER_ENABLE 1u
+#else
 #define DEF_TOUCH_DATA_STREAMER_ENABLE 0u
+#endif
 
 
 #define DATA_STREAMER_BOARD_TYPE USER_BOARD

@@ -28,9 +28,10 @@ qtouch/datastreamer/datastreamer_UART_avr.d \
  d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../utils/utils_assert.h ../include/driver_init.h \
  ../Config/clock_config.h ../include/port.h ../include/atmel_start_pins.h \
- ../include/clkctrl.h ../include/adc_basic.h ../include/wdt.h \
+ ../include/clkctrl.h ../include/usart_basic.h ../atmel_start.h \
+ ../include/driver_init.h ../include/atmel_start_pins.h ../include/wdt.h \
  ../include/ccp.h ../include/protected_io.h ../include/cpuint.h \
- ../include/slpctrl.h ../include/bod.h
+ ../include/slpctrl.h ../include/bod.h ../include/ac.h ../include/vref.h
 
 ../qtouch/datastreamer/datastreamer.h:
 
@@ -98,7 +99,13 @@ d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\i
 
 ../include/clkctrl.h:
 
-../include/adc_basic.h:
+../include/usart_basic.h:
+
+../atmel_start.h:
+
+../include/driver_init.h:
+
+../include/atmel_start_pins.h:
 
 ../include/wdt.h:
 
@@ -111,3 +118,7 @@ d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\i
 ../include/slpctrl.h:
 
 ../include/bod.h:
+
+../include/ac.h:
+
+../include/vref.h:

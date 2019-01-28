@@ -24,7 +24,12 @@ qtouch/touch.d qtouch/touch.o: ../qtouch/touch.c ../qtouch/touch.h \
  ../utils/interrupt_avr8.h \
  d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../utils/utils_assert.h ../qtouch/license.h ../include/port.h \
- ../qtouch/datastreamer/datastreamer.h ../qtouch/touch.h
+ ../atmel_start.h ../include/driver_init.h ../Config/clock_config.h \
+ ../include/atmel_start_pins.h ../include/clkctrl.h \
+ ../include/usart_basic.h ../include/wdt.h ../include/ccp.h \
+ ../include/protected_io.h ../include/cpuint.h ../include/slpctrl.h \
+ ../include/bod.h ../qtouch/touch.h ../include/ac.h ../include/vref.h \
+ ../include/atmel_start_pins.h ../qtouch/datastreamer/datastreamer.h
 
 ../qtouch/touch.h:
 
@@ -84,6 +89,36 @@ d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\i
 
 ../include/port.h:
 
-../qtouch/datastreamer/datastreamer.h:
+../atmel_start.h:
+
+../include/driver_init.h:
+
+../Config/clock_config.h:
+
+../include/atmel_start_pins.h:
+
+../include/clkctrl.h:
+
+../include/usart_basic.h:
+
+../include/wdt.h:
+
+../include/ccp.h:
+
+../include/protected_io.h:
+
+../include/cpuint.h:
+
+../include/slpctrl.h:
+
+../include/bod.h:
 
 ../qtouch/touch.h:
+
+../include/ac.h:
+
+../include/vref.h:
+
+../include/atmel_start_pins.h:
+
+../qtouch/datastreamer/datastreamer.h:

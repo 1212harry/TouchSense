@@ -170,7 +170,7 @@ void system_init()
 		
 	/* PORT setting on PB2 */
 
-	// Set pin direction to input
+	 //Set pin direction to input
 	PB2_set_dir(PORT_DIR_IN);
 
 	PB2_set_pull_mode(
@@ -198,7 +198,9 @@ void system_init()
 	
 	VREF_0_init();
 	
-	//USART_initialization();
+#ifdef _DEBUG
+	USART_initialization();
+#endif
 	
 	AC_0_initialization();
 	

@@ -20,14 +20,16 @@ src/driver_init.d src/driver_init.o: ../src/driver_init.c \
  d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  ../Config/clock_config.h ../include/port.h ../include/atmel_start_pins.h \
  ../include/clkctrl.h ../include/rtc.h ../utils/utils_assert.h \
- ../include/adc_basic.h ../include/wdt.h ../include/ccp.h \
- ../include/protected_io.h ../include/cpuint.h ../include/slpctrl.h \
- ../include/bod.h ../qtouch/touch.h ../qtouch/include/touch_api_ptc.h \
+ ../include/usart_basic.h ../atmel_start.h ../include/driver_init.h \
+ ../include/atmel_start_pins.h ../qtouch/touch.h \
+ ../qtouch/include/touch_api_ptc.h \
  ../qtouch/include/qtm_common_components_api.h \
  ../qtouch/include/qtm_binding_layer_0x0005_api.h \
  ../qtouch/include/qtm_acq_t81x_0x0007_api.h \
- ../qtouch/include/qtm_touch_key_0x0002_api.h ../include/system.h \
- ../include/ccp.h ../include/port.h
+ ../qtouch/include/qtm_touch_key_0x0002_api.h ../include/wdt.h \
+ ../include/ccp.h ../include/protected_io.h ../include/cpuint.h \
+ ../include/slpctrl.h ../include/bod.h ../include/ac.h ../include/vref.h \
+ ../include/system.h ../include/ccp.h ../include/port.h
 
 ../include/driver_init.h:
 
@@ -81,7 +83,25 @@ d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\i
 
 ../utils/utils_assert.h:
 
-../include/adc_basic.h:
+../include/usart_basic.h:
+
+../atmel_start.h:
+
+../include/driver_init.h:
+
+../include/atmel_start_pins.h:
+
+../qtouch/touch.h:
+
+../qtouch/include/touch_api_ptc.h:
+
+../qtouch/include/qtm_common_components_api.h:
+
+../qtouch/include/qtm_binding_layer_0x0005_api.h:
+
+../qtouch/include/qtm_acq_t81x_0x0007_api.h:
+
+../qtouch/include/qtm_touch_key_0x0002_api.h:
 
 ../include/wdt.h:
 
@@ -95,17 +115,9 @@ d:\atmel\ studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\i
 
 ../include/bod.h:
 
-../qtouch/touch.h:
+../include/ac.h:
 
-../qtouch/include/touch_api_ptc.h:
-
-../qtouch/include/qtm_common_components_api.h:
-
-../qtouch/include/qtm_binding_layer_0x0005_api.h:
-
-../qtouch/include/qtm_acq_t81x_0x0007_api.h:
-
-../qtouch/include/qtm_touch_key_0x0002_api.h:
+../include/vref.h:
 
 ../include/system.h:
 

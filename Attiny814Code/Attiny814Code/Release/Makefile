@@ -59,6 +59,7 @@ C_SRCS +=  \
 ../main.c \
 ../qtouch/datastreamer/datastreamer_UART_avr.c \
 ../qtouch/touch.c \
+../src/ac.c \
 ../src/adc_basic.c \
 ../src/bod.c \
 ../src/clkctrl.c \
@@ -67,6 +68,8 @@ C_SRCS +=  \
 ../src/rtc.c \
 ../src/slpctrl.c \
 ../src/tca.c \
+../src/usart_basic.c \
+../src/vref.c \
 ../src/wdt.c
 
 
@@ -85,6 +88,7 @@ examples/src/touch_example.o \
 main.o \
 qtouch/datastreamer/datastreamer_UART_avr.o \
 qtouch/touch.o \
+src/ac.o \
 src/adc_basic.o \
 src/bod.o \
 src/clkctrl.o \
@@ -94,6 +98,8 @@ src/protected_io.o \
 src/rtc.o \
 src/slpctrl.o \
 src/tca.o \
+src/usart_basic.o \
+src/vref.o \
 src/wdt.o
 
 OBJS_AS_ARGS +=  \
@@ -104,6 +110,7 @@ examples/src/touch_example.o \
 main.o \
 qtouch/datastreamer/datastreamer_UART_avr.o \
 qtouch/touch.o \
+src/ac.o \
 src/adc_basic.o \
 src/bod.o \
 src/clkctrl.o \
@@ -113,6 +120,8 @@ src/protected_io.o \
 src/rtc.o \
 src/slpctrl.o \
 src/tca.o \
+src/usart_basic.o \
+src/vref.o \
 src/wdt.o
 
 C_DEPS +=  \
@@ -123,6 +132,7 @@ examples/src/touch_example.d \
 main.d \
 qtouch/datastreamer/datastreamer_UART_avr.d \
 qtouch/touch.d \
+src/ac.d \
 src/adc_basic.d \
 src/bod.d \
 src/clkctrl.d \
@@ -132,6 +142,8 @@ src/protected_io.d \
 src/rtc.d \
 src/slpctrl.d \
 src/tca.d \
+src/usart_basic.d \
+src/vref.d \
 src/wdt.d
 
 C_DEPS_AS_ARGS +=  \
@@ -142,6 +154,7 @@ examples/src/touch_example.d \
 main.d \
 qtouch/datastreamer/datastreamer_UART_avr.d \
 qtouch/touch.d \
+src/ac.d \
 src/adc_basic.d \
 src/bod.d \
 src/clkctrl.d \
@@ -151,6 +164,8 @@ src/protected_io.d \
 src/rtc.d \
 src/slpctrl.d \
 src/tca.d \
+src/usart_basic.d \
+src/vref.d \
 src/wdt.d
 
 OUTPUT_FILE_PATH +=Attiny814Code.elf
@@ -216,6 +231,13 @@ qtouch/touch.o: ../qtouch/touch.c
 	@echo Finished building: $<
 	
 
+src/ac.o: ../src/ac.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Atmel Studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include" -I"../Config" -I"../examples/include" -I"../include" -I"../utils" -I"../utils/assembler" -I".." -I"../documentation" -I"../qtouch" -I"../qtouch/datastreamer" -I"../qtouch/include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=attiny814 -B "D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\gcc\dev\attiny814" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 src/adc_basic.o: ../src/adc_basic.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -266,6 +288,20 @@ src/slpctrl.o: ../src/slpctrl.c
 	
 
 src/tca.o: ../src/tca.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Atmel Studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include" -I"../Config" -I"../examples/include" -I"../include" -I"../utils" -I"../utils/assembler" -I".." -I"../documentation" -I"../qtouch" -I"../qtouch/datastreamer" -I"../qtouch/include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=attiny814 -B "D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\gcc\dev\attiny814" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/usart_basic.o: ../src/usart_basic.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)D:\Atmel Studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include" -I"../Config" -I"../examples/include" -I"../include" -I"../utils" -I"../utils/assembler" -I".." -I"../documentation" -I"../qtouch" -I"../qtouch/datastreamer" -I"../qtouch/include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=attiny814 -B "D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\gcc\dev\attiny814" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+src/vref.o: ../src/vref.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)D:\Atmel Studio\install\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DNDEBUG  -I"D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\include" -I"../Config" -I"../examples/include" -I"../include" -I"../utils" -I"../utils/assembler" -I".." -I"../documentation" -I"../qtouch" -I"../qtouch/datastreamer" -I"../qtouch/include"  -Os -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -Wall -mmcu=attiny814 -B "D:\Atmel Studio\install\7.0\Packs\atmel\ATtiny_DFP\1.3.172\gcc\dev\attiny814" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

@@ -16,6 +16,8 @@ qtouch\datastreamer\datastreamer_UART_avr.c
 
 qtouch\touch.c
 
+src\ac.c
+
 src\adc_basic.c
 
 src\bod.c
@@ -33,6 +35,10 @@ src\rtc.c
 src\slpctrl.c
 
 src\tca.c
+
+src\usart_basic.c
+
+src\vref.c
 
 src\wdt.c
 
